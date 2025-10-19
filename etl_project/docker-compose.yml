@@ -1,0 +1,99 @@
+version: "3.11"
+
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:latest
+    container_name: redpanda
+    command:
+      - redpanda start
+      - --overprovisioned
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --node-id 0
+      - --check=false
+      # Two listeners on DIFFERENT ports:
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://localhost:18082
+      - --advertise-pandaproxy-addr internal://redpanda:8082,external://localhost:18082
+    ports:
+      - "9092:9092"     # internal listener for other containers
+      - "19092:19092"   # external listener for host (laptop)
+      - "9644:9644"     # metrics
+      - "18082:18082"   # proxy (optional)
+    networks:
+      - redpanda-net
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster info --brokers=redpanda:9092 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  console:
+    image: docker.redpanda.com/redpandadata/console:latest
+    container_name: redpanda-console
+    environment:
+      - KAFKA_BROKERS=redpanda:9092
+    ports:
+      - "8080:8080"   # Web UI
+    depends_on:
+      - redpanda
+    networks:
+      - redpanda-net
+  
+  # Build the Python app once
+  app-base:
+    build: .
+    image: kafka-lab:latest
+    container_name: app-base
+    command: ["bash"]
+    # mount code for live editing (optional)
+    volumes:
+      - ./:/app
+    # share the same network so "redpanda:9092" works from inside
+    depends_on:
+      - redpanda
+
+  # Producer service
+  producer:
+    image: kafka-lab:latest
+    container_name: producer
+    environment:
+      KAFKA_BOOTSTRAP_HOST: redpanda        # host part for producer script
+      KAFKA_BOOTSTRAP_PORT: 9092            # port part for producer script
+      KAFKA_TOPIC_NAME: ${KAFKA_TOPIC_NAME}
+    command: ["python", "-u", "src/producer_order_status.py"]
+    volumes:
+      - ./:/app
+    depends_on:
+      - redpanda
+    networks:
+      - redpanda-net
+
+
+  # Consumer service
+  consumer:
+    image: kafka-lab:latest
+    container_name: consumer
+    environment:
+      KAFKA_BOOTSTRAP: redpanda:9092
+      KAFKA_TOPIC_NAME: ${KAFKA_TOPIC_NAME}
+      SNOWFLAKE_USER: ${SNOWFLAKE_USER}
+      SNOWFLAKE_PASSWORD: ${SNOWFLAKE_PASSWORD}
+      SNOWFLAKE_ACCOUNT: ${SNOWFLAKE_ACCOUNT}
+      SNOWFLAKE_ROLE: ${SNOWFLAKE_ROLE}
+      SNOWFLAKE_WAREHOUSE: ${SNOWFLAKE_WAREHOUSE}
+      SNOWFLAKE_DATABASE: ${SNOWFLAKE_DATABASE}
+      SNOWFLAKE_SCHEMA: ${SNOWFLAKE_SCHEMA}
+    command: ["python", "-u", "src/consumer_to_snowflake.py"]
+    volumes:
+      - ./:/app
+    depends_on:
+      - redpanda
+    networks:
+      - redpanda-net
+
+networks:
+  redpanda-net:
+    driver: bridge
