@@ -1,13 +1,9 @@
-##Events in the raw table
+#Events in the raw table
 create or replace stream RETAIL.RAW.EVENTS_STRM on table EVENTS append_only = true;
 
 
 
-
-
-
-
-##Task auto_update_order_status
+#Task auto_update_order_status
 
 create or replace task RETAIL.DWH.TASK_AUTO_UPDATE_ORDER_STATUS
 	warehouse=COMPUTE_WH
@@ -35,10 +31,6 @@ create or replace task RETAIL.DWH.TASK_AUTO_UPDATE_ORDER_STATUS
           WHEN NOT MATCHED THEN
             INSERT (ORDER_ID, CUSTOMER_ID, PREVIOUS_STATUS, CURRENT_STATUS, LAST_UPDATE_TS)
             VALUES (S.ORDER_ID, S.CUSTOMER_ID, NULL, S.NEW_STATUS, S.LAST_EVENT_TS);
-
-
-
-
 
 
 
@@ -73,5 +65,6 @@ SELECT COUNT(*) AS mismatches
 FROM latest l
 JOIN RETAIL.DWH.ORDER_STATUS d USING (ORDER_ID)
 WHERE l.rn = 1 AND l.NEW_STATUS <> d.CURRENT_STATUS;
+
 
 
