@@ -79,7 +79,7 @@ python src/event_producer.py
 streamlit run monitoring/app.py
 ```
 
-## 📊 Data Flow
+## Data Flow
 
 ### 1. Data Generation
 - **Source**: `src/data_generator.py`
@@ -137,7 +137,7 @@ streamlit run monitoring/app.py
 -  **Video of automation process in Snowflake** (Stream + Task)
 -  **Screenshot/video of monitoring app** (Streamlit dashboard)
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - **Python**: Data generation, Kafka clients, Snowflake connector
 - **Apache Kafka (Redpanda)**: Real-time event streaming
@@ -165,5 +165,6 @@ See `env.example` for required configuration:
 - Schemas: `RAW` (events), `DWH` (processed data)
 - Tables: `ORDER`, `EVENTS`, `ORDER_STATUS`
 - Automation: Stream + Task for real-time updates
+
 
 
