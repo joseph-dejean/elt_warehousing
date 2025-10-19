@@ -2,7 +2,7 @@
 
 A complete ETL pipeline that demonstrates real-time data streaming using Apache Kafka (Redpanda) and Snowflake automation.
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 [Data Generator] → [Kafka Producer] → [Redpanda] → [Kafka Consumer] → [Snowflake RAW]
@@ -10,7 +10,7 @@ A complete ETL pipeline that demonstrates real-time data streaming using Apache 
 [Snowflake Stream] → [Snowflake Task] → [Snowflake DWH] → [Monitoring Dashboard]
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 etl_project/
@@ -34,7 +34,7 @@ etl_project/
 └── env.example              # Environment variables template
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Prerequisites
 - Python 3.11+
@@ -127,15 +127,15 @@ streamlit run monitoring/app.py
 # Open http://localhost:8501
 ```
 
-## 📋 Project Requirements Checklist
+##  Project Requirements Checklist
 
-- ✅ **Full repo with all project scripts**
-- ✅ **Schema to outline the steps of your process**
-- ✅ **Snowflake SQL scripts** (DDL, Stream, Task, Validation)
-- ✅ **Screenshots of Snowflake tables** (validate data ingestion)
-- ✅ **Video of data streaming with Kafka** (events created and ingested)
-- ✅ **Video of automation process in Snowflake** (Stream + Task)
-- ✅ **Screenshot/video of monitoring app** (Streamlit dashboard)
+-  **Full repo with all project scripts**
+-  **Schema to outline the steps of your process**
+-  **Snowflake SQL scripts** (DDL, Stream, Task, Validation)
+-  **Screenshots of Snowflake tables** (validate data ingestion)
+-  **Video of data streaming with Kafka** (events created and ingested)
+-  **Video of automation process in Snowflake** (Stream + Task)
+-  **Screenshot/video of monitoring app** (Streamlit dashboard)
 
 ## 🛠️ Technologies Used
 
@@ -145,7 +145,7 @@ streamlit run monitoring/app.py
 - **Streamlit**: Monitoring dashboard
 - **Docker**: Containerized infrastructure
 
-## 📈 Key Features
+##  Key Features
 
 - **Real-time streaming**: Kafka producer/consumer pattern
 - **Automated processing**: Snowflake Streams and Tasks
@@ -153,7 +153,7 @@ streamlit run monitoring/app.py
 - **Monitoring**: Real-time dashboard with metrics
 - **Scalable architecture**: Docker-based infrastructure
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables
 See `env.example` for required configuration:
@@ -166,6 +166,4 @@ See `env.example` for required configuration:
 - Tables: `ORDER`, `EVENTS`, `ORDER_STATUS`
 - Automation: Stream + Task for real-time updates
 
-## 📝 License
 
-This project is for educational purposes as part of an ETL course.
