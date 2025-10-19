@@ -99,33 +99,6 @@ streamlit run monitoring/app.py
 - **Dashboard**: Streamlit app at `http://localhost:8501`
 - **Metrics**: Real-time order status distribution and event counts
 
-## 🎥 Demo Videos
-
-### Video 1: Kafka Streaming
-```bash
-# Start consumer
-python src/event_consumer.py
-
-# Start producer (generates events every 2 seconds)
-python src/event_producer.py
-```
-
-### Video 2: Snowflake Automation
-```bash
-# Generate demo events slowly
-python demo_events.py
-
-# Check Snowflake console for:
-# - Stream: RETAIL.RAW.EVENTS_STRM
-# - Task: TASK_AUTO_UPDATE_ORDER_STATUS
-```
-
-### Video 3: Monitoring Dashboard
-```bash
-# Start monitoring app
-streamlit run monitoring/app.py
-# Open http://localhost:8501
-```
 
 ##  Project Requirements Checklist
 
@@ -165,6 +138,7 @@ See `env.example` for required configuration:
 - Schemas: `RAW` (events), `DWH` (processed data)
 - Tables: `ORDER`, `EVENTS`, `ORDER_STATUS`
 - Automation: Stream + Task for real-time updates
+
 
 
 
