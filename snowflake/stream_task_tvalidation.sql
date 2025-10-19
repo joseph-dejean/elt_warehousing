@@ -1,4 +1,4 @@
-#Events in the raw table
+##Events in the raw table
 create or replace stream RETAIL.RAW.EVENTS_STRM on table EVENTS append_only = true;
 
 
@@ -7,7 +7,7 @@ create or replace stream RETAIL.RAW.EVENTS_STRM on table EVENTS append_only = tr
 
 
 
-#Task auto_update_order_status
+##Task auto_update_order_status
 
 create or replace task RETAIL.DWH.TASK_AUTO_UPDATE_ORDER_STATUS
 	warehouse=COMPUTE_WH
@@ -43,7 +43,7 @@ create or replace task RETAIL.DWH.TASK_AUTO_UPDATE_ORDER_STATUS
 
 
 
-# Validation of the stream task
+## Validation of the stream task
 -- Raw vs DWH counts
 SELECT COUNT(*) AS raw_events FROM RETAIL.RAW.ORDER_STATUS_EVENTS;
 SELECT COUNT(*) AS dwh_orders FROM RETAIL.DWH.ORDER_STATUS;
@@ -73,4 +73,5 @@ SELECT COUNT(*) AS mismatches
 FROM latest l
 JOIN RETAIL.DWH.ORDER_STATUS d USING (ORDER_ID)
 WHERE l.rn = 1 AND l.NEW_STATUS <> d.CURRENT_STATUS;
+
 
