@@ -100,16 +100,6 @@ streamlit run monitoring/app.py
 - **Metrics**: Real-time order status distribution and event counts
 
 
-##  Project Requirements Checklist
-
--  **Full repo with all project scripts**
--  **Schema to outline the steps of your process**
--  **Snowflake SQL scripts** (DDL, Stream, Task, Validation)
--  **Screenshots of Snowflake tables** (validate data ingestion)
--  **Video of data streaming with Kafka** (events created and ingested)
--  **Video of automation process in Snowflake** (Stream + Task)
--  **Screenshot/video of monitoring app** (Streamlit dashboard)
-
 ##  Technologies Used
 
 - **Python**: Data generation, Kafka clients, Snowflake connector
@@ -138,6 +128,7 @@ See `env.example` for required configuration:
 - Schemas: `RAW` (events), `DWH` (processed data)
 - Tables: `ORDER`, `EVENTS`, `ORDER_STATUS`
 - Automation: Stream + Task for real-time updates
+
 
 
 
